@@ -1,7 +1,5 @@
 package com.travel.compass.model;
 
-
-
 import jakarta.persistence.*;
 import lombok.*;
 
