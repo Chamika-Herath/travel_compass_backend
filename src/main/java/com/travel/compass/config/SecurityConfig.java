@@ -38,8 +38,11 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
                                 "/auth/login",
+
                                 "/auth/register",
                                 "/service-requests/**"
+
+                      
 
                         ).permitAll()
                         .anyRequest().authenticated()
@@ -50,9 +53,11 @@ public class SecurityConfig implements WebMvcConfigurer {
     }
 
     @Bean
+
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 
     @Bean

@@ -4,8 +4,10 @@ import com.travel.compass.model.User;
 import com.travel.compass.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,13 +37,16 @@ public class AuthController {
     }
 
     // User Login (Session-Based)
+
     // User Login (Session-Based)
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> userMap, HttpSession session) {
+
         String email = userMap.get("email");
         String password = userMap.get("password");
 
         Optional<User> userOptional = userService.findByEmail(email);
+
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -54,6 +59,7 @@ public class AuthController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password!"); // ❌ 401 Unauthorized
     }
+
 
 
 

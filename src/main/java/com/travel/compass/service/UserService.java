@@ -1,5 +1,6 @@
 package com.travel.compass.service;
 
+
 import com.travel.compass.model.User;
 import com.travel.compass.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public User registerUser(String firstName, String lastName, String email, String password) {
+
         email = email.toLowerCase().trim(); // Convert email to lowercase and remove spaces
 
         if (userRepository.findByEmail(email).isPresent()) {
