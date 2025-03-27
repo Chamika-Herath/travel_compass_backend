@@ -1,12 +1,13 @@
 package com.travel.compass.controller;
 
-
-
-
 import com.travel.compass.model.User;
 import com.travel.compass.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,19 +37,31 @@ public class AuthController {
     }
 
     // User Login (Session-Based)
+
+    // User Login (Session-Based)
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> userMap, HttpSession session) {
+    public ResponseEntity<String> login(@RequestBody Map<String, String> userMap, HttpSession session) {
+
         String email = userMap.get("email");
         String password = userMap.get("password");
 
         Optional<User> userOptional = userService.findByEmail(email);
 
-        if (userOptional.isPresent() && passwordEncoder.matches(password, userOptional.get().getPassword())) {
-            session.setAttribute("user", userOptional.get());  // Store user in session
-            return "Login successful!";
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                session.setAttribute("user", user);
+                return ResponseEntity.ok("Login successful!");  // ✅ 200 OK for successful login
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password!"); // ❌ 401 Unauthorized
+            }
         }
-        return "Invalid email or password!";
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password!"); // ❌ 401 Unauthorized
     }
+
+
+
 
     // Check Session (Get Logged-in User)
     @GetMapping("/session")
