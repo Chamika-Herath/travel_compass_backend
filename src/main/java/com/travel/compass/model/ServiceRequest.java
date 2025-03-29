@@ -23,7 +23,12 @@ public class ServiceRequest {
     private String phoneNumber;
     private String status = "PENDING"; // Default status
 
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false) // Foreign key linking to User
     private User user;
+
+    public Long getUserId() {
+        return user != null ? user.getId() : null;
+    }
 }

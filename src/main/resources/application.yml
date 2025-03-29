@@ -26,9 +26,14 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/travel_compass
     username: root
-    password: 200123704050A
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update  # Use 'update' to keep data between restarts
+logging:
+  level:
+    org:
+      springframework:
+        security=DEBUG:
