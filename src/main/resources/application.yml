@@ -1,25 +1,4 @@
-#spring:
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/travel_compass
-#    username: root
-#    password: 200123704050A
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#  jpa:
-#    hibernate:
-#      ddl-auto: create-drop
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        format_sql: true
-#    database: mysql
-#    database-platform: org.hibernate.dialect.MySQL8Dialect
-#
-#application:
-#  security:
-#    jwt:
-#      secret-key: 4bb6d1dfbafb64a681139d1586b6f1160d18159afd57c8c79136d7490630407c
-#      access-token-expiration: 86400000
-#      refresh-token-expiration: 604800000
+
 
 
 spring:
@@ -29,11 +8,24 @@ spring:
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update  # Use 'update' to keep data between restarts
-logging:
-  level:
-    org:
-      springframework:
-        security=DEBUG:
+    show-sql: true
+
+  properties:
+    hibernate:
+      format_sql: true
+
+
+server:
+  port: 8081
+
+  logging:
+    level:
+      root: DEBUG
+
+      org.hibernate.SQL: DEBUG  # Show executed SQL queries
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Show SQL parameter values
+      org.springframework.orm.jpa: DEBUG  # Show JPA debug logs
+      org.springframework.transaction: DEBUG  # Show transaction logs
