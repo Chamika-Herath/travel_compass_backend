@@ -150,7 +150,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())  // ❗ Disable CSRF for API requests (Important for DELETE)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/service-requests/**","/api/users/**").permitAll()  // Allow public access to auth & service requests
+                        .requestMatchers("/auth/**", "/service-requests/**","/api/users/**","api/vehicles/**").permitAll()  // Allow public access to auth & service requests
                         //.requestMatchers("/api/users/**").authenticated() // Fix: Secure all user endpoints
                         //.anyRequest().authenticated()
                 )
