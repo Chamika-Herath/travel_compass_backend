@@ -27,8 +27,10 @@ public class SecurityConfig {
                         .anyRequest().permitAll()  // ✅ Allow ALL requests (disable security)
                 )
                 .sessionManagement(session -> session
+
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // 🚀 No session required
                 );
+
 
         return http.build();
     }
