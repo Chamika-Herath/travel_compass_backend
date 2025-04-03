@@ -1,5 +1,6 @@
 package com.travel.compass.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -48,5 +49,9 @@ public class Vehicle {
     @JsonManagedReference
     private List<VehicleImage> vehicleImages;  // Mapping to VehicleImage
 
-
+    // Many vehicles belong to one user
+//    @ManyToOne
+//    @JoinColumn(name = "user_id", nullable = false)  // Foreign key to User
+//    @JsonBackReference
+//    private User user;
 }

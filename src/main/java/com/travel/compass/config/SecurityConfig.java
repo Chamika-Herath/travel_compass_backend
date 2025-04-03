@@ -157,7 +157,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)  // ✅ Session-based authentication
                 )
-                .cors();  // ✅ Allow CORS globally (handled in CorsConfig)
+                .cors(cors -> cors.disable());  // ✅ Allow CORS globally (handled in CorsConfig)
 
         return http.build();
     }
