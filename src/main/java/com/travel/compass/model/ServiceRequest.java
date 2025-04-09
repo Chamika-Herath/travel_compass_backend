@@ -1,16 +1,12 @@
 package com.travel.compass.model;
 
-import com.travel.compass.model.User;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "service_requests")
 public class ServiceRequest {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,14 +17,12 @@ public class ServiceRequest {
     private String serviceType;
     private String description;
     private String phoneNumber;
-    private String status = "PENDING"; // Default status
+    private String status = "PENDING";
+    private String licenseNumber;
+    private String businessName;
+    private String vehicleTypes;
 
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) // Foreign key linking to User
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    public Long getUserId() {
-        return user != null ? user.getId() : null;
-    }
 }

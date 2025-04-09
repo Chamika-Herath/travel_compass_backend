@@ -1,120 +1,100 @@
-//package com.travel.compass.service;
-//
-//
-//import com.travel.compass.model.User;
-//import com.travel.compass.repository.UserRepository;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.stereotype.Service;
-//import org.springframework.web.multipart.MultipartFile;
-//
-//import java.io.IOException;
-//import java.util.Optional;
-//
-//@Service
-//public class UserService {
-//
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-//
-//    public User registerUser(String firstName, String lastName, String email, String password) {
-//
-//        email = email.toLowerCase().trim(); // Convert email to lowercase and remove spaces
-//
-//        if (userRepository.findByEmail(email).isPresent()) {
-//            throw new RuntimeException("Email already exists!");
-//        }
-//
-//        User user = new User();
-//        user.setFirstName(firstName);
-//        user.setLastName(lastName);
-//        user.setEmail(email);
-//        user.setPassword(passwordEncoder.encode(password));
-//
-//        return userRepository.save(user);
-//    }
-//
-//    public Optional<User> findByEmail(String email) {
-//        return userRepository.findByEmail(email);
-//    }
-//
-//
-//}
-
-
 package com.travel.compass.service;
 
-
+import com.travel.compass.Dto.UserDTO;
 import com.travel.compass.model.User;
 import com.travel.compass.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.Conditions;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    public User registerUser(String firstName, String lastName, String email, String password) {
-
-        email = email.toLowerCase().trim(); // Convert email to lowercase and remove spaces
-
-        if (userRepository.findByEmail(email).isPresent()) {
-            throw new RuntimeException("Email already exists!");
+    // User Registration
+    public UserDTO registerUser(UserDTO userDTO) {
+        if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already exists");
         }
 
-        User user = new User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
-
-        user.setRole("USER"); // Assign default role
-        return userRepository.save(user);
+        User user = modelMapper.map(userDTO, User.class);
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        User savedUser = userRepository.save(user);
+        return convertToDto(savedUser);
     }
 
+    // Get User by Email
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-
-    public User updateUser(Long userId, String firstName, String lastName, String email, String password) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found!"));
-
-        // Partial updates
-        if (firstName != null && !firstName.isEmpty()) user.setFirstName(firstName);
-        if (lastName != null && !lastName.isEmpty()) user.setLastName(lastName);
-
-        if (email != null && !email.isEmpty()) {
-            email = email.toLowerCase().trim();
-            if (!email.equals(user.getEmail()) && userRepository.findByEmail(email).isPresent()) {
-                throw new RuntimeException("Email already taken!");
-            }
-            user.setEmail(email);
-        }
-
-        if (password != null && !password.isEmpty()) {
-            user.setPassword(passwordEncoder.encode(password));
-        }
-
-        return userRepository.save(user);
+    // Convert Entity to DTO
+    public UserDTO convertToDto(User user) {
+        return modelMapper.map(user, UserDTO.class);
     }
 
-    public void deleteUser(Long userId) {
-        userRepository.deleteById(userId);
+    // Update User
+    @Transactional
+    public UserDTO updateUser(Long id, UserDTO userDTO) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Prevent ID change
+        userDTO.setId(id);
+
+        // Map only non-null fields from DTO to existing entity
+        modelMapper.getConfiguration()
+                .setSkipNullEnabled(true)
+                .setPropertyCondition(Conditions.isNotNull());
+
+        // Explicitly exclude relationships from mapping
+        modelMapper.typeMap(UserDTO.class, User.class)
+                .addMappings(mapper -> {
+                    mapper.skip(User::setId);
+                    mapper.skip(User::setServiceRequests);
+                    mapper.skip(User::setGuide);
+                    mapper.skip(User::setHotelOwner);
+                    mapper.skip(User::setVehicleProvider);
+                });
+
+        // Map the DTO to existing user
+        modelMapper.map(userDTO, existingUser);
+
+        // Handle password separately
+        if (userDTO.getPassword() != null) {
+            existingUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
+
+        User updatedUser = userRepository.save(existingUser);
+        return convertToDto(updatedUser);
     }
 
+    // Get User by ID
+    public UserDTO getUserById(Long id) {
+        return userRepository.findById(id)
+                .map(this::convertToDto)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    // Get All Users
+    public List<UserDTO> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    // Delete User
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
 }
