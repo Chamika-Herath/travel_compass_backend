@@ -1,129 +1,136 @@
 //package com.travel.compass.controller;
 //
+//import com.travel.compass.Dto.UserDTO;
 //import com.travel.compass.model.User;
 //import com.travel.compass.service.UserService;
-//import org.springframework.beans.factory.annotation.Autowired;
+//import jakarta.servlet.http.HttpSession;
+//import jakarta.validation.Valid;
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.http.HttpStatus;
 //import org.springframework.http.ResponseEntity;
 //import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.multipart.MultipartFile;
+//import org.springframework.web.server.ResponseStatusException;
 //
-//import java.io.IOException;
+//import java.util.List;
 //
 //@RestController
 //@RequestMapping("/api/users")
-//@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+//@RequiredArgsConstructor
 //public class UserController {
+//    private final UserService userService;
 //
-//    @Autowired
-//    private UserService userService;
+//    @GetMapping
+//    public List<UserDTO> getAllUsers() {
+//        return userService.getAllUsers();
+//    }
 //
-//    // ✅ Update Profile (Change Name & Upload Profile Image)
-//    @PutMapping("/{id}/update")
-//    public ResponseEntity<User> updateProfile(
+//    @GetMapping("/{id}")
+//    public ResponseEntity<UserDTO> getUser(@PathVariable Long id, HttpSession session) {
+//        validateSessionUser(session, id);
+//        return ResponseEntity.ok(userService.getUserById(id));
+//    }
+//
+//    @PutMapping("/{id}")
+//    public ResponseEntity<UserDTO> updateUser(
 //            @PathVariable Long id,
-//            @RequestParam String firstName,
-//            @RequestParam String lastName,
-//            @RequestParam(value = "profileImage", required = false) MultipartFile profileImage
-//    ) {
-//        try {
-//            User updatedUser = userService.updateUserProfile(id, firstName, lastName, profileImage);
-//            return ResponseEntity.ok(updatedUser);
-//        } catch (IOException e) {
-//            return ResponseEntity.internalServerError().build();
+//            @Valid @RequestBody UserDTO userDTO,
+//            HttpSession session) {
+//        validateSessionUser(session, id);
+//        return ResponseEntity.ok(userService.updateUser(id, userDTO));
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteUser(@PathVariable Long id, HttpSession session) {
+//        validateSessionUser(session, id);
+//        userService.deleteUser(id);
+//        return ResponseEntity.noContent().build();
+//    }
+//
+//    private void validateSessionUser(HttpSession session, Long requestedUserId) {
+//        User sessionUser = (User) session.getAttribute("user");
+//        if (sessionUser == null || !sessionUser.getId().equals(requestedUserId)) {
+//            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized access");
 //        }
 //    }
-//
-//    // ✅ Delete Account
-//    @DeleteMapping("/{id}/delete")
-//    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
-//        userService.deleteUser(id);
-//        return ResponseEntity.ok("User deleted successfully");
-//    }
 //}
-//
-//
-//
-//
-
 
 
 package com.travel.compass.controller;
 
+import com.travel.compass.Dto.UserDTO;
 import com.travel.compass.model.User;
 import com.travel.compass.service.UserService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Map;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    // Update user profile
+    // Admin-only endpoint
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> getAllUsers(HttpSession session) {
+        validateAdminRole(session);
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    // Allow user to access their own profile or admin to access any
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long id, HttpSession session) {
+        validateUserAccess(session, id);
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(
+    public ResponseEntity<UserDTO> updateUser(
             @PathVariable Long id,
-            @RequestBody Map<String, String> updates,
-            HttpSession session
-    ) {
-        User loggedInUser = (User) session.getAttribute("user");
+            @Valid @RequestBody UserDTO userDTO,
+            HttpSession session) {
+        validateUserAccess(session, id);
+        return ResponseEntity.ok(userService.updateUser(id, userDTO));
+    }
 
-        // Debug: Print session user and requested ID
-        System.out.println("[DEBUG] Session User: " + loggedInUser);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(
+            @PathVariable Long id,
+            HttpSession session) {
+        validateUserAccess(session, id);
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
 
+    // ========== Helper Methods ========== //
 
+    private void validateUserAccess(HttpSession session, Long requestedUserId) {
+        User sessionUser = getAuthenticatedUser(session);
 
-
-        // Authorization check
-        if (loggedInUser == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in!");
-        }
-        if (!loggedInUser.getId().equals(id)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You can only update your own profile!");
-        }
-
-        try {
-            User updatedUser = userService.updateUser(
-                    id,
-                    updates.get("firstName"),
-                    updates.get("lastName"),
-                    updates.get("email"),
-                    updates.get("password")
-            );
-
-            // Refresh session data
-            session.setAttribute("user", updatedUser);
-            return ResponseEntity.ok(updatedUser);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        // Allow access if: same user OR admin
+        if (!sessionUser.getId().equals(requestedUserId)) {
+            validateAdminRole(session);
         }
     }
 
-    // Delete user profile
-    // Delete User Profile
-    @DeleteMapping("/{id}/delete")
-    public ResponseEntity<?> deleteUser(
-            @PathVariable Long id,
-            HttpSession session
-    ) {
-        User loggedInUser = (User) session.getAttribute("user");
-        System.out.println("[DEBUG] Session User: " + loggedInUser);
-
-        // Authorization check
-        if (loggedInUser == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in!");
+    private void validateAdminRole(HttpSession session) {
+        User user = getAuthenticatedUser(session);
+        if (!"ADMIN".equals(user.getRole())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Admin privileges required");
         }
-        if (!loggedInUser.getId().equals(id)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You can only delete your own profile!");
-        }
+    }
 
-        userService.deleteUser(id);
-        session.invalidate();
-        return ResponseEntity.ok("Account deleted successfully!");
+    private User getAuthenticatedUser(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+        }
+        return user;
     }
 }

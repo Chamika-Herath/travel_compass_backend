@@ -10,4 +10,10 @@ public class ServiceRequestDTO {
     private String serviceType;
     private String description;
     private String phoneNumber;
+
+    private String licenseNumber;
+    private String businessName;
+    private String location;
+    private String qualifications;
+    private String vehicleTypes;
 }

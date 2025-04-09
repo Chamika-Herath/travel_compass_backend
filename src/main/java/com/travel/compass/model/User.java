@@ -1,10 +1,10 @@
 package com.travel.compass.model;
 
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,8 +13,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,11 +31,27 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private String role;// Default role
+
+    private String role = "USER"; // Default role
 
 
-//    // One user can add many vehicles
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Vehicle> vehicles;
+    // Add these relationships if not present
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ServiceRequest> serviceRequests = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Guide guide;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private HotelOwner hotelOwner;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private VehicleProvider vehicleProvider;
+
+    // Helper method to manage bidirectional relationship
+    public void addServiceRequest(ServiceRequest request) {
+        serviceRequests.add(request);
+        request.setUser(this);
+    }
 
 }

@@ -1,154 +1,142 @@
-//package com.travel.compass.controller;
-//import com.travel.compass.Dto.ServiceRequestDTO;
-//import com.travel.compass.model.ServiceRequest;
-//import com.travel.compass.model.User;
-//import com.travel.compass.repository.ServiceRequestRepository;
-//import com.travel.compass.repository.UserRepository;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//@RestController
-//@RequestMapping("/service-requests")
-//public class ServiceRequestController {
-//
-//    private final ServiceRequestRepository serviceRequestRepository;
-//    private final UserRepository userRepository;  // Inject UserRepository
-//
-//    public ServiceRequestController(ServiceRequestRepository serviceRequestRepository, UserRepository userRepository) {
-//        this.serviceRequestRepository = serviceRequestRepository;
-//        this.userRepository = userRepository;
-//    }
-//
-//    // Submit a service request
-//    @PostMapping("/submit")
-//    public ResponseEntity<?> submitRequest(@RequestBody ServiceRequestDTO requestDTO) {
-//        Optional<User> user = userRepository.findById(requestDTO.getUserId());
-//        if (user.isEmpty()) {
-//            return ResponseEntity.badRequest().body("User not found");
-//        }
-//
-//        ServiceRequest request = new ServiceRequest();
-//        request.setUser(user.get());
-//        request.setFullName(requestDTO.getFullName());
-//        request.setAddress(requestDTO.getAddress());
-//        request.setNic(requestDTO.getNic());
-//        request.setServiceType(requestDTO.getServiceType());
-//        request.setDescription(requestDTO.getDescription());
-//        request.setPhoneNumber(requestDTO.getPhoneNumber());
-//        request.setStatus("PENDING");
-//
-//        serviceRequestRepository.save(request);
-//        return ResponseEntity.ok("Service request submitted successfully!");
-//    }
-//
-//
-//
-//    // Get all pending requests
-//    @GetMapping("/pending")
-//    public ResponseEntity<List<ServiceRequest>> getPendingRequests() {
-//        List<ServiceRequest> pendingRequests = serviceRequestRepository.findByStatus("PENDING");
-//        return ResponseEntity.ok(pendingRequests);
-//    }
-//
-//
-//}
-
-
 package com.travel.compass.controller;
 
 import com.travel.compass.Dto.ServiceRequestDTO;
 import com.travel.compass.model.ServiceRequest;
 import com.travel.compass.model.User;
-import com.travel.compass.repository.ServiceRequestRepository;
 import com.travel.compass.repository.UserRepository;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import com.travel.compass.service.ServiceRequestService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/service-requests")
+@RequestMapping("/api/service-requests")
+@RequiredArgsConstructor
 public class ServiceRequestController {
-
     private static final Logger logger = LoggerFactory.getLogger(ServiceRequestController.class);
 
-    private final ServiceRequestRepository serviceRequestRepository;
+    private final ServiceRequestService serviceRequestService;
     private final UserRepository userRepository;
 
-    public ServiceRequestController(ServiceRequestRepository serviceRequestRepository, UserRepository userRepository) {
-        this.serviceRequestRepository = serviceRequestRepository;
-        this.userRepository = userRepository;
-    }
+    // ========== Create Endpoints ========== //
 
-    // ✅ Submit a service request
-    @PostMapping("/submit")
-    public ResponseEntity<?> submitRequest(@RequestBody ServiceRequestDTO requestDTO) {
-        Optional<User> user = userRepository.findById(requestDTO.getUserId());
-        if (user.isEmpty()) {
-            return ResponseEntity.badRequest().body("User not found");
+    @PostMapping
+    public ResponseEntity<?> createServiceRequest(@Valid @RequestBody ServiceRequestDTO requestDTO) {
+        try {
+            User user = userRepository.findById(requestDTO.getUserId())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            ServiceRequest request = new ServiceRequest();
+            request.setUser(user);
+            request.setFullName(requestDTO.getFullName());
+            request.setAddress(requestDTO.getAddress());
+            request.setNic(requestDTO.getNic());
+            request.setServiceType(requestDTO.getServiceType());
+            request.setDescription(requestDTO.getDescription());
+            request.setPhoneNumber(requestDTO.getPhoneNumber());
+            request.setLicenseNumber(requestDTO.getLicenseNumber());
+            request.setBusinessName(requestDTO.getBusinessName());
+            request.setVehicleTypes(requestDTO.getVehicleTypes());
+
+            ServiceRequest createdRequest = serviceRequestService.createServiceRequest(request);
+            return ResponseEntity.ok(createdRequest);
+        } catch (Exception e) {
+            logger.error("Error creating service request: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of(
+                    "error", "Failed to create request",
+                    "message", e.getMessage()
+            ));
         }
-
-        ServiceRequest request = new ServiceRequest();
-        request.setUser(user.get());
-        request.setFullName(requestDTO.getFullName());
-        request.setAddress(requestDTO.getAddress());
-        request.setNic(requestDTO.getNic());
-        request.setServiceType(requestDTO.getServiceType());
-        request.setDescription(requestDTO.getDescription());
-        request.setPhoneNumber(requestDTO.getPhoneNumber());
-        request.setStatus("PENDING");
-
-        serviceRequestRepository.save(request);
-        logger.info("Service request submitted for user ID: {}", requestDTO.getUserId());
-        return ResponseEntity.ok("Service request submitted successfully!");
     }
 
-    // ✅ Get all pending requests
+    // ========== Read Endpoints ========== //
+
     @GetMapping("/pending")
-    public ResponseEntity<List<ServiceRequest>> getPendingRequests() {
-        List<ServiceRequest> pendingRequests = serviceRequestRepository.findByStatus("PENDING");
-        logger.info("Fetching all pending service requests...");
-        return ResponseEntity.ok(pendingRequests);
+    public ResponseEntity<List<ServiceRequest>> getAllPendingRequests() {
+        List<ServiceRequest> requests = serviceRequestService.getAllPendingServiceRequests();
+        return ResponseEntity.ok(requests);
     }
 
-    // ✅ Approve or reject a request & update user role
-    @PutMapping("/{requestId}/status/{status}")
-    public ResponseEntity<?> updateRequestStatus(@PathVariable Long requestId, @PathVariable String status) {
-        logger.info("Updating status of request ID: {} to {}", requestId, status);
-        Optional<ServiceRequest> optionalRequest = serviceRequestRepository.findById(requestId);
+    @GetMapping
+    public ResponseEntity<List<ServiceRequest>> getAllServiceRequests() {
+        List<ServiceRequest> requests = serviceRequestService.getAllServiceRequests();
+        return ResponseEntity.ok(requests);
+    }
 
-        if (optionalRequest.isPresent()) {
-            ServiceRequest request = optionalRequest.get();
-            request.setStatus(status.toUpperCase());
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getServiceRequestById(@PathVariable Long id) {
+        Optional<ServiceRequest> request = serviceRequestService.getServiceRequestById(id);
+        return request.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
-            if ("APPROVED".equalsIgnoreCase(status)) {
-                User user = request.getUser();
-                String newRole = mapServiceTypeToRole(request.getServiceType());
-                user.setRole(newRole);
-                userRepository.save(user);
-                logger.info("User ID {} role updated to {}", user.getId(), newRole);
-            }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ServiceRequest>> getServiceRequestsByUser(@PathVariable Long userId) {
+        List<ServiceRequest> requests = serviceRequestService.getServiceRequestsByUserId(userId);
+        return ResponseEntity.ok(requests);
+    }
 
-            serviceRequestRepository.save(request);
-            return ResponseEntity.ok("Request ID " + requestId + " status updated to " + status);
-        } else {
-            return ResponseEntity.badRequest().body("Service request not found for ID: " + requestId);
+    // ========== Update Endpoints ========== //
+
+    @PutMapping("/{id}/approve")
+    public ResponseEntity<?> approveServiceRequest(@PathVariable Long id) {
+        try {
+            ServiceRequest approvedRequest = serviceRequestService.approveServiceRequest(id);
+            return ResponseEntity.ok(Map.of(
+                    "message", "Request approved successfully",
+                    "requestId", approvedRequest.getId(),
+                    "userId", approvedRequest.getUser().getId(),
+                    "newRole", approvedRequest.getUser().getRole()
+            ));
+        } catch (Exception e) {
+            logger.error("Error approving request: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of(
+                    "error", "Approval failed",
+                    "message", e.getMessage()
+            ));
         }
     }
 
-    // ✅ Map service type to user roles
-    private String mapServiceTypeToRole(String serviceType) {
-        return switch (serviceType.toUpperCase()) {
-            case "VEHICLE_PROVIDER" -> "ROLE_DRIVER";
-            case "HOTEL_OWNER" -> "ROLE_HOTEL_OWNER";
-            case "GUIDE" -> "ROLE_GUIDE";
-            default -> "ROLE_USER";
-        };
+    @PutMapping("/{id}/reject")
+    public ResponseEntity<?> rejectServiceRequest(@PathVariable Long id) {
+        try {
+            ServiceRequest rejectedRequest = serviceRequestService.rejectServiceRequest(id);
+            return ResponseEntity.ok(Map.of(
+                    "message", "Request rejected",
+                    "requestId", rejectedRequest.getId()
+            ));
+        } catch (Exception e) {
+            logger.error("Error rejecting request: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of(
+                    "error", "Rejection failed",
+                    "message", e.getMessage()
+            ));
+        }
+    }
+
+    // ========== Delete Endpoints ========== //
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteServiceRequest(@PathVariable Long id) {
+        try {
+            serviceRequestService.deleteServiceRequest(id);
+            return ResponseEntity.ok(Map.of(
+                    "message", "Service request deleted successfully",
+                    "requestId", id
+            ));
+        } catch (Exception e) {
+            logger.error("Error deleting request: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of(
+                    "error", "Deletion failed",
+                    "message", e.getMessage()
+            ));
+        }
     }
 }
