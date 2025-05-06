@@ -77,7 +77,7 @@ public class UserController {
     private final UserService userService;
 
     // Admin-only endpoint
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> getAllUsers(HttpSession session) {
         validateAdminRole(session);
         return ResponseEntity.ok(userService.getAllUsers());

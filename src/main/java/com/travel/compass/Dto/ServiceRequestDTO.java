@@ -3,6 +3,7 @@ import lombok.Data;
 
 @Data
 public class ServiceRequestDTO {
+    private Long id;
     private Long userId;  // Include user ID
     private String fullName;
     private String address;

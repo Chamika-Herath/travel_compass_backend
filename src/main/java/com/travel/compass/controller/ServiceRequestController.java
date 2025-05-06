@@ -3,10 +3,12 @@ package com.travel.compass.controller;
 import com.travel.compass.Dto.ServiceRequestDTO;
 import com.travel.compass.model.ServiceRequest;
 import com.travel.compass.model.User;
+import com.travel.compass.repository.ServiceRequestRepository;
 import com.travel.compass.repository.UserRepository;
 import com.travel.compass.service.ServiceRequestService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/service-requests")
@@ -24,6 +27,8 @@ public class ServiceRequestController {
 
     private final ServiceRequestService serviceRequestService;
     private final UserRepository userRepository;
+    private final ServiceRequestRepository serviceRequestRepository;
+    private final ModelMapper modelMapper;
 
     // ========== Create Endpoints ========== //
 
@@ -58,11 +63,22 @@ public class ServiceRequestController {
 
     // ========== Read Endpoints ========== //
 
-    @GetMapping("/pending")
+    /*@GetMapping("/pending")
     public ResponseEntity<List<ServiceRequest>> getAllPendingRequests() {
         List<ServiceRequest> requests = serviceRequestService.getAllPendingServiceRequests();
         return ResponseEntity.ok(requests);
+    }*/
+    @GetMapping("/pending")
+    public ResponseEntity<List<ServiceRequestDTO>> getPendingRequests() {
+        List<ServiceRequest> requests = serviceRequestRepository.findByStatus("PENDING");
+
+        List<ServiceRequestDTO> dtos = requests.stream()
+                .map(request -> modelMapper.map(request, ServiceRequestDTO.class))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dtos);
     }
+
 
     @GetMapping
     public ResponseEntity<List<ServiceRequest>> getAllServiceRequests() {
