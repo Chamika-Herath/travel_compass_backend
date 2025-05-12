@@ -1,129 +1,4 @@
-//
-//
-//
-//package com.travel.compass.controller;
-//
-//import com.travel.compass.model.Location;
-//import com.travel.compass.service.LocationService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.multipart.MultipartFile;
-//
-//import java.io.IOException;
-//import java.nio.file.Files;
-//import java.nio.file.Path;
-//import java.nio.file.Paths;
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.UUID;
-//
-//@RestController
-//@RequestMapping("/api/locations")
-//@CrossOrigin(origins = "*")
-//public class LocationController {
-//
-//    private static final String UPLOAD_DIR = "uploads/location/";
-//
-//    @Autowired
-//    private LocationService locationService;
-//
-//    @PostMapping("/add")
-//    public ResponseEntity<Location> addLocation(
-//            @RequestParam("province") String province,
-//            @RequestParam("district") String district,
-//            @RequestParam("name") String name,
-//            @RequestParam("category") String category,
-//            @RequestParam("description") String description,
-//            @RequestParam("images") List<MultipartFile> images) throws IOException {
-//
-//        List<String> imagePaths = processUploadedFiles(images);
-//        Location location = Location.builder()
-//                .province(province)
-//                .district(district)
-//                .name(name)
-//                .category(category)
-//                .description(description)
-//                .imagePaths(imagePaths)
-//                .build();
-//
-//        return ResponseEntity.ok(locationService.saveLocation(location));
-//    }
-//
-//    @GetMapping("/all")
-//    public List<Location> getAllLocations() {
-//        return locationService.getAllLocations();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Location> getLocationById(@PathVariable Long id) {
-//        Location location = locationService.getLocationById(id);
-//        return location != null ? ResponseEntity.ok(location) : ResponseEntity.notFound().build();
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Location> updateLocation(
-//            @PathVariable Long id,
-//            @RequestParam("province") String province,
-//            @RequestParam("district") String district,
-//            @RequestParam("name") String name,
-//            @RequestParam("category") String category,
-//            @RequestParam("description") String description,
-//            @RequestParam(value = "images", required = false) List<MultipartFile> images) throws IOException {
-//
-//        Location existingLocation = locationService.getLocationById(id);
-//        List<String> newImagePaths = new ArrayList<>();
-//
-//        if(images != null && !images.isEmpty()) {
-//            newImagePaths = processUploadedFiles(images);
-//        }
-//
-//        List<String> allImagePaths = new ArrayList<>(existingLocation.getImagePaths());
-//        allImagePaths.addAll(newImagePaths);
-//
-//        if(allImagePaths.size() > 5) {
-//            throw new IllegalArgumentException("Total images cannot exceed 5");
-//        }
-//
-//        Location updatedLocation = Location.builder()
-//                .province(province)
-//                .district(district)
-//                .name(name)
-//                .category(category)
-//                .description(description)
-//                .imagePaths(allImagePaths)
-//                .build();
-//
-//        return ResponseEntity.ok(locationService.updateLocation(id, updatedLocation));
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteLocation(@PathVariable Long id) {
-//        locationService.deleteLocation(id);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    private List<String> processUploadedFiles(List<MultipartFile> files) throws IOException {
-//        List<String> filePaths = new ArrayList<>();
-//
-//        if(files != null && !files.isEmpty()) {
-//            if(files.size() > 5) {
-//                throw new IllegalArgumentException("You can upload up to 5 images");
-//            }
-//
-//            for (MultipartFile file : files) {
-//                if (!file.isEmpty()) {
-//                    String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-//                    Path path = Paths.get(UPLOAD_DIR + filename);
-//                    Files.createDirectories(path.getParent());
-//                    Files.write(path, file.getBytes());
-//                    filePaths.add("/" + UPLOAD_DIR + filename);
-//                }
-//            }
-//        }
-//        return filePaths;
-//    }
-//}
+
 
 
 
@@ -133,6 +8,7 @@
 
 package com.travel.compass.controller;
 
+import com.travel.compass.Dto.LocationDisplayDTO;
 import com.travel.compass.model.Location;
 import com.travel.compass.service.LocationService;
 import org.slf4j.Logger;
@@ -186,11 +62,17 @@ public class LocationController {
         return ResponseEntity.ok(locationService.saveLocation(location));
     }
 
+//    @GetMapping("/all")
+//    public List<Location> getAllLocations() {
+//        logger.info("Fetching all locations");
+//        return locationService.getAllLocations();
+//    }
+
     @GetMapping("/all")
-    public List<Location> getAllLocations() {
-        logger.info("Fetching all locations");
-        return locationService.getAllLocations();
+    public ResponseEntity<List<LocationDisplayDTO>> getAllLocationsWithPackages() {
+        return ResponseEntity.ok(locationService.getAllLocationsWithPackages());
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Location> getLocationById(@PathVariable Long id) {
