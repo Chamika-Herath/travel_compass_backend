@@ -1,6 +1,8 @@
 //
 //
 //
+//
+//
 //package com.travel.compass.controller;
 //
 //import com.travel.compass.Dto.GuidePackageDTO;
@@ -8,6 +10,7 @@
 //import org.springframework.http.ResponseEntity;
 //import org.springframework.web.bind.annotation.*;
 //import org.springframework.web.multipart.MultipartFile;
+//
 //import java.io.IOException;
 //import java.util.List;
 //
@@ -36,6 +39,11 @@
 //        return ResponseEntity.ok(guidePackageService.getPackagesByGuide(guideId));
 //    }
 //
+//    @GetMapping("/by-location/{locationId}")
+//    public ResponseEntity<List<GuidePackageDTO>> getPackagesByLocation(@PathVariable Long locationId) {
+//        return ResponseEntity.ok(guidePackageService.getPackagesByLocation(locationId));
+//    }
+//
 //    @PutMapping("/update/{packageId}")
 //    public ResponseEntity<GuidePackageDTO> updatePackage(
 //            @PathVariable Long packageId,
@@ -49,7 +57,7 @@
 //        return ResponseEntity.ok("Package deleted");
 //    }
 //}
-
+//
 
 
 
@@ -60,7 +68,6 @@ import com.travel.compass.service.GuidePackageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -69,42 +76,35 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class GuidePackageController {
 
-    private final GuidePackageService guidePackageService;
+    private final GuidePackageService packageService;
 
-    public GuidePackageController(GuidePackageService guidePackageService) {
-        this.guidePackageService = guidePackageService;
+    public GuidePackageController(GuidePackageService packageService) {
+        this.packageService = packageService;
     }
 
-    @PostMapping(value = "/create/{guideId}", consumes = {"multipart/form-data"})
+    @PostMapping(value = "/create/user/{userId}", consumes = {"multipart/form-data"})
     public ResponseEntity<GuidePackageDTO> createPackage(
-            @PathVariable Long guideId,
+            @PathVariable Long userId,
             @RequestPart("package") GuidePackageDTO dto,
             @RequestPart("images") MultipartFile[] images) throws IOException {
-        GuidePackageDTO created = guidePackageService.createPackage(guideId, dto, images);
-        return ResponseEntity.ok(created);
+        return ResponseEntity.ok(packageService.createPackageByUserId(userId, dto, images));
     }
 
-    @GetMapping("/guide/{guideId}")
-    public ResponseEntity<List<GuidePackageDTO>> getPackagesByGuide(@PathVariable Long guideId) {
-        return ResponseEntity.ok(guidePackageService.getPackagesByGuide(guideId));
+    @GetMapping("/guide/user/{userId}")
+    public ResponseEntity<List<GuidePackageDTO>> getPackagesByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(packageService.getPackagesByUserId(userId));
     }
 
-    @GetMapping("/by-location/{locationId}")
-    public ResponseEntity<List<GuidePackageDTO>> getPackagesByLocation(@PathVariable Long locationId) {
-        return ResponseEntity.ok(guidePackageService.getPackagesByLocation(locationId));
-    }
-
-    @PutMapping("/update/{packageId}")
+    @PutMapping("/{packageId}")
     public ResponseEntity<GuidePackageDTO> updatePackage(
             @PathVariable Long packageId,
             @RequestBody GuidePackageDTO dto) {
-        return ResponseEntity.ok(guidePackageService.updatePackage(packageId, dto));
+        return ResponseEntity.ok(packageService.updatePackage(packageId, dto));
     }
 
-    @DeleteMapping("/delete/{packageId}")
+    @DeleteMapping("/{packageId}")
     public ResponseEntity<String> deletePackage(@PathVariable Long packageId) {
-        guidePackageService.deletePackage(packageId);
+        packageService.deletePackage(packageId);
         return ResponseEntity.ok("Package deleted");
     }
 }
-
