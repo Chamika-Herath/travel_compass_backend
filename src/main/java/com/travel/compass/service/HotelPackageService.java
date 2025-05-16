@@ -1,51 +1,171 @@
+//package com.travel.compass.service;
+//
+//import com.travel.compass.model.HotelPackage;
+//import com.travel.compass.repository.HotelPackageRepository;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Service;
+//
+//import java.util.List;
+//import java.util.Optional;
+//
+//@Service
+//public class HotelPackageService {
+//
+//    private final HotelPackageRepository repository;
+//
+//    @Autowired
+//    public HotelPackageService(HotelPackageRepository repository) {
+//        this.repository = repository;
+//    }
+//
+//    public List<HotelPackage> getAllPackages() {
+//        return repository.findAll();
+//    }
+//
+//    public Optional<HotelPackage> getPackageById(Long id) {
+//        return repository.findById(id);
+//    }
+//
+//    public HotelPackage createPackage(HotelPackage hotelPackage) {
+//        return repository.save(hotelPackage);
+//    }
+//
+//    public HotelPackage updatePackage(Long id, HotelPackage updatedPackage) {
+//        return repository.findById(id)
+//                .map(pkg -> {
+//                    pkg.setName(updatedPackage.getName());
+//                    pkg.setDescription(updatedPackage.getDescription());
+//                    pkg.setBedCount(updatedPackage.getBedCount());
+//                    pkg.setPrice(updatedPackage.getPrice());
+//                    pkg.setAvailable(updatedPackage.isAvailable());
+//                    return repository.save(pkg);
+//                }).orElseThrow(() -> new RuntimeException("Package not found"));
+//    }
+//
+//    public void deletePackage(Long id) {
+//        if (!repository.existsById(id)) {
+//            throw new RuntimeException("Package not found");
+//        }
+//        repository.deleteById(id);
+//    }
+//}
+
+
+
 package com.travel.compass.service;
 
+import com.travel.compass.Dto.HotelPackageDTO;
+import com.travel.compass.model.HotelOwner;
 import com.travel.compass.model.HotelPackage;
+import com.travel.compass.model.Location;
+import com.travel.compass.repository.HotelOwnerRepository;
 import com.travel.compass.repository.HotelPackageRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.travel.compass.repository.LocationRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class HotelPackageService {
 
-    private final HotelPackageRepository repository;
+    private final HotelPackageRepository packageRepo;
+    private final HotelOwnerRepository hotelOwnerRepo;
+    private final LocationRepository locationRepo;
+    private final ModelMapper modelMapper;
+    private final AuthorizationService authService;
 
-    @Autowired
-    public HotelPackageService(HotelPackageRepository repository) {
-        this.repository = repository;
+    public HotelPackageService(HotelPackageRepository packageRepo,
+                               HotelOwnerRepository hotelOwnerRepo,
+                               LocationRepository locationRepo,
+                               ModelMapper modelMapper,
+                               AuthorizationService authService) {
+        this.packageRepo = packageRepo;
+        this.hotelOwnerRepo = hotelOwnerRepo;
+        this.locationRepo = locationRepo;
+        this.modelMapper = modelMapper;
+        this.authService = authService;
     }
 
-    public List<HotelPackage> getAllPackages() {
-        return repository.findAll();
-    }
+    public HotelPackageDTO createPackageByUserId(Long userId, HotelPackageDTO dto, MultipartFile[] images) throws IOException {
+        authService.validateUserRole(userId, "ROLE_HOTEL_OWNER");
 
-    public Optional<HotelPackage> getPackageById(Long id) {
-        return repository.findById(id);
-    }
+        HotelOwner hotelOwner = hotelOwnerRepo.findByUser_Id(userId)
+                .orElseThrow(() -> new RuntimeException("Hotel owner not found for user ID: " + userId));
 
-    public HotelPackage createPackage(HotelPackage hotelPackage) {
-        return repository.save(hotelPackage);
-    }
+        HotelPackage hotelPackage = modelMapper.map(dto, HotelPackage.class);
+        hotelPackage.setHotelOwner(hotelOwner);
 
-    public HotelPackage updatePackage(Long id, HotelPackage updatedPackage) {
-        return repository.findById(id)
-                .map(pkg -> {
-                    pkg.setName(updatedPackage.getName());
-                    pkg.setDescription(updatedPackage.getDescription());
-                    pkg.setBedCount(updatedPackage.getBedCount());
-                    pkg.setPrice(updatedPackage.getPrice());
-                    pkg.setAvailable(updatedPackage.isAvailable());
-                    return repository.save(pkg);
-                }).orElseThrow(() -> new RuntimeException("Package not found"));
-    }
-
-    public void deletePackage(Long id) {
-        if (!repository.existsById(id)) {
-            throw new RuntimeException("Package not found");
+        List<Location> locations = locationRepo.findAllById(dto.getLocationIds());
+        if(locations.size() != dto.getLocationIds().size()) {
+            throw new RuntimeException("One or more locations not found");
         }
-        repository.deleteById(id);
+        hotelPackage.setLocations(locations);
+
+        List<String> imagePaths = processImages(images);
+        hotelPackage.setImagePaths(imagePaths);
+
+        return modelMapper.map(packageRepo.save(hotelPackage), HotelPackageDTO.class);
+    }
+
+    public List<HotelPackageDTO> getPackagesByUserId(Long userId) {
+        HotelOwner owner = hotelOwnerRepo.findByUser_Id(userId)
+                .orElseThrow(() -> new RuntimeException("Hotel owner not found"));
+        return packageRepo.findByHotelOwnerId(owner.getId()).stream()
+                .map(pkg -> modelMapper.map(pkg, HotelPackageDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<HotelPackageDTO> getPackagesByLocation(Long locationId) {
+        return packageRepo.findByLocationId(locationId).stream()
+                .map(pkg -> modelMapper.map(pkg, HotelPackageDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public HotelPackageDTO updatePackage(Long packageId, HotelPackageDTO dto) {
+        HotelPackage existing = packageRepo.findById(packageId)
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+
+        modelMapper.map(dto, existing);
+        existing.setLocations(locationRepo.findAllById(dto.getLocationIds()));
+
+        return modelMapper.map(packageRepo.save(existing), HotelPackageDTO.class);
+    }
+
+    public void deletePackage(Long packageId) {
+        HotelPackage pkg = packageRepo.findById(packageId)
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+
+        if(pkg.getImagePaths() != null) {
+            pkg.getImagePaths().forEach(path -> {
+                try {
+                    Files.deleteIfExists(Paths.get(path.startsWith("/") ? path.substring(1) : path));
+                } catch (IOException e) {
+                    System.err.println("Failed to delete image: " + path);
+                }
+            });
+        }
+        packageRepo.delete(pkg);
+    }
+
+    private List<String> processImages(MultipartFile[] images) throws IOException {
+        List<String> imagePaths = new ArrayList<>();
+        if(images == null || images.length == 0) return imagePaths;
+
+        if(images.length > 5) throw new IllegalArgumentException("Maximum 5 images allowed");
+
+        String uploadDir = "uploads/hotel-packages/";
+        Files.createDirectories(Paths.get(uploadDir));
+
+        for(MultipartFile file : images) {
+            String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+            Path path = Paths.get(uploadDir + filename);
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            imagePaths.add("/" + uploadDir + filename);
+        }
+        return imagePaths;
     }
 }
