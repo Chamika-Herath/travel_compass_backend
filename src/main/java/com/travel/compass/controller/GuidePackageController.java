@@ -107,4 +107,10 @@ public class GuidePackageController {
         packageService.deletePackage(packageId);
         return ResponseEntity.ok("Package deleted");
     }
+
+
+    @GetMapping("/{packageId}")
+    public ResponseEntity<GuidePackageDTO> getPackageById(@PathVariable Long packageId) {
+        return ResponseEntity.ok(packageService.getPackageById(packageId));
+    }
 }

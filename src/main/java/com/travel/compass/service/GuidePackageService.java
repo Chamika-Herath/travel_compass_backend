@@ -217,4 +217,25 @@ public class GuidePackageService {
         }
         packageRepo.delete(pkg);
     }
+
+
+
+
+    public GuidePackageDTO getPackageById(Long packageId) {
+        GuidePackage guidePackage = packageRepo.findById(packageId)
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+
+        GuidePackageDTO dto = modelMapper.map(guidePackage, GuidePackageDTO.class);
+
+        // Set location IDs
+        dto.setLocationIds(guidePackage.getLocations().stream()
+                .map(Location::getId)
+                .collect(Collectors.toList()));
+
+        // Set guide name using User's firstName + lastName
+        User user = guidePackage.getGuide().getUser();
+        dto.setGuideName(user.getFirstName() + " " + user.getLastName());
+
+        return dto;
+    }
 }

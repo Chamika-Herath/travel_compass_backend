@@ -76,6 +76,7 @@
 
 package com.travel.compass.service;
 
+import com.travel.compass.Dto.HotelPackageDTO;
 import com.travel.compass.Dto.VehiclePackageDTO;
 import com.travel.compass.model.*;
 import com.travel.compass.repository.*;
@@ -204,5 +205,26 @@ public class VehiclePackageService {
             }
         }
         return imagePaths;
+    }
+
+
+
+
+    public VehiclePackageDTO getPackageById(Long packageId) {
+        VehiclePackage vehiclePackage = vehiclePackageRepo.findById(packageId)
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+
+        VehiclePackageDTO dto = modelMapper.map(vehiclePackage, VehiclePackageDTO.class);
+
+        // Set location IDs
+        dto.setLocationIds(vehiclePackage.getLocations().stream()
+                .map(Location::getId)
+                .collect(Collectors.toList()));
+
+        // Set guide name using User's firstName + lastName
+        User user = vehiclePackage.getVehicleProvider().getUser();
+        dto.setProviderName(user.getFirstName() + " " + user.getLastName());
+
+        return dto;
     }
 }

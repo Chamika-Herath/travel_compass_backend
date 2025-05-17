@@ -73,13 +73,16 @@
 
 package com.travel.compass.controller;
 
+import com.travel.compass.Dto.GuidePackageDTO;
 import com.travel.compass.Dto.HotelPackageDTO;
+import com.travel.compass.model.HotelPackage;
 import com.travel.compass.service.HotelPackageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/hotel-packages")
@@ -121,5 +124,12 @@ public class HotelPackageController {
     public ResponseEntity<String> deletePackage(@PathVariable Long packageId) {
         packageService.deletePackage(packageId);
         return ResponseEntity.ok("Hotel package deleted successfully");
+    }
+
+
+
+    @GetMapping("/{packageId}")
+    public ResponseEntity<HotelPackageDTO> getPackageById(@PathVariable Long packageId) {
+        return ResponseEntity.ok(packageService.getPackageById(packageId));
     }
 }

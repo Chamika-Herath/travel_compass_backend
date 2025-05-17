@@ -33,6 +33,7 @@
 
 package com.travel.compass.controller;
 
+import com.travel.compass.Dto.HotelPackageDTO;
 import com.travel.compass.Dto.VehiclePackageDTO;
 import com.travel.compass.service.VehiclePackageService;
 import org.springframework.http.ResponseEntity;
@@ -82,5 +83,11 @@ public class VehiclePackageController {
     public ResponseEntity<String> deletePackage(@PathVariable Long packageId) {
         vehiclePackageService.deletePackage(packageId);
         return ResponseEntity.ok("Vehicle package deleted successfully");
+    }
+
+
+    @GetMapping("/{packageId}")
+    public ResponseEntity<VehiclePackageDTO> getPackageById(@PathVariable Long packageId) {
+        return ResponseEntity.ok(vehiclePackageService.getPackageById(packageId));
     }
 }
