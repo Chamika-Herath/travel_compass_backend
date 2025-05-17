@@ -54,10 +54,9 @@
 
 package com.travel.compass.service;
 
+import com.travel.compass.Dto.GuidePackageDTO;
 import com.travel.compass.Dto.HotelPackageDTO;
-import com.travel.compass.model.HotelOwner;
-import com.travel.compass.model.HotelPackage;
-import com.travel.compass.model.Location;
+import com.travel.compass.model.*;
 import com.travel.compass.repository.HotelOwnerRepository;
 import com.travel.compass.repository.HotelPackageRepository;
 import com.travel.compass.repository.LocationRepository;
@@ -167,5 +166,24 @@ public class HotelPackageService {
             imagePaths.add("/" + uploadDir + filename);
         }
         return imagePaths;
+    }
+
+
+    public HotelPackageDTO getPackageById(Long packageId) {
+        HotelPackage hotelPackage = packageRepo.findById(packageId)
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+
+        HotelPackageDTO dto = modelMapper.map(hotelPackage, HotelPackageDTO.class);
+
+        // Set location IDs
+        dto.setLocationIds(hotelPackage.getLocations().stream()
+                .map(Location::getId)
+                .collect(Collectors.toList()));
+
+        // Set guide name using User's firstName + lastName
+        User user = hotelPackage.getHotelOwner().getUser();
+        dto.setHotelName(user.getFirstName() + " " + user.getLastName());
+
+        return dto;
     }
 }
