@@ -25,9 +25,9 @@ public class GuideController {
     }
 
     // ✅ Delete a guide by ID
-   // @DeleteMapping("/delete/{guideId}")
-   // public ResponseEntity<String> deleteGuide(@PathVariable Long guideId) {
-    //    guideService.deleteGuide(guideId);
-     //   return ResponseEntity.ok("Guide deleted successfully");
-   // }
+    @DeleteMapping("/delete/{guideId}")
+    public ResponseEntity<String> deleteGuide(@PathVariable Long guideId) {
+        guideService.deleteGuide(guideId);
+        return ResponseEntity.ok("Guide deleted successfully");
+    }
 }
