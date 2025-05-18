@@ -58,6 +58,7 @@
 package com.travel.compass.controller;
 
 import com.travel.compass.Dto.UserDTO;
+import com.travel.compass.Dto.VehicleProviderDTO;
 import com.travel.compass.model.User;
 import com.travel.compass.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -76,10 +77,16 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    // Admin-only endpoint
+    /*// Admin-only endpoint
     @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> getAllUsers(HttpSession session) {
         validateAdminRole(session);
+        return ResponseEntity.ok(userService.getAllUsers());
+    }*/
+
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 

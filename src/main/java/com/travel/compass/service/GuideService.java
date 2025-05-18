@@ -40,10 +40,10 @@ public class GuideService {
     }
 
     // ✅ Delete a guide and all their packages
-   // public void deleteGuide(Long guideId) {
-      //  List<GuidePackage> packages = packageRepo.findByGuideId(guideId);
-       // packageRepo.deleteAll(packages);
+    public void deleteGuide(Long guideId) {
+        List<GuidePackage> packages = packageRepo.findByGuideId(guideId);
+        packageRepo.deleteAll(packages);
 
-      //  guideRepo.deleteById(guideId);
-   // }
+        guideRepo.deleteById(guideId);
+    }
 }
