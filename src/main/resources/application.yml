@@ -1,5 +1,6 @@
 #
 #
+#
 #spring:
 #  datasource:
 #    url: jdbc:mysql://localhost:3306/travel_compass
@@ -24,7 +25,8 @@
 #
 #  web:
 #    resources:
-#      static-locations: file:uploads/
+#      static-locations: file:./uploads/
+#      add-mappings: true
 #
 #server:
 #  port: 8081
@@ -38,6 +40,16 @@
 #    org.springframework.transaction: DEBUG
 
 
+
+
+
+
+
+
+
+
+
+#
 
 
 spring:
@@ -67,6 +79,24 @@ spring:
       static-locations: file:./uploads/
       add-mappings: true
 
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: chamikadilshanherath@gmail.com
+    password: lods mpnk kljl gspf
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+
+
 server:
   port: 8081
 
@@ -77,3 +107,16 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.springframework.orm.jpa: DEBUG
     org.springframework.transaction: DEBUG
+
+
+
+
+
+
+
+
+
+
+
+
+

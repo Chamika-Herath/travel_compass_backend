@@ -1,0 +1,441 @@
+2025-05-18T11:05:26.778+05:30  INFO 6816 --- [main] com.travel.compass.CompassApplication    : Starting CompassApplication using Java 17.0.12 with PID 6816 (C:\Users\CHAMIKA\Documents\GitHub\travel_compass_backend\target\classes started by CHAMIKA in C:\Users\CHAMIKA\Documents\GitHub\travel_compass_backend)
+2025-05-18T11:05:26.794+05:30 DEBUG 6816 --- [main] com.travel.compass.CompassApplication    : Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-05-18T11:05:26.797+05:30  INFO 6816 --- [main] com.travel.compass.CompassApplication    : No active profile set, falling back to 1 default profile: "default"
+2025-05-18T11:05:29.740+05:30  INFO 6816 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-18T11:05:29.933+05:30  INFO 6816 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 171 ms. Found 9 JPA repository interfaces.
+2025-05-18T11:05:31.669+05:30  INFO 6816 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-05-18T11:05:31.696+05:30  INFO 6816 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-18T11:05:31.697+05:30  INFO 6816 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-05-18T11:05:31.851+05:30  INFO 6816 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2025-05-18T11:05:31.852+05:30  INFO 6816 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4881 ms
+2025-05-18T11:05:32.317+05:30 DEBUG 6816 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2025-05-18T11:05:32.393+05:30  INFO 6816 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-18T11:05:32.740+05:30  INFO 6816 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.5.Final
+2025-05-18T11:05:32.910+05:30  INFO 6816 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-18T11:05:34.154+05:30  INFO 6816 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-18T11:05:34.295+05:30  INFO 6816 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-18T11:05:34.724+05:30  INFO 6816 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2c08c787
+2025-05-18T11:05:34.727+05:30  INFO 6816 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-18T11:05:35.034+05:30  WARN 6816 --- [main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-18T11:05:35.036+05:30  WARN 6816 --- [main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-05-18T11:05:35.095+05:30  INFO 6816 --- [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-18T11:05:38.637+05:30  INFO 6816 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-18T11:05:38.989+05:30 DEBUG 6816 --- [main] org.hibernate.SQL                        : 
+    alter table users 
+       add column reset_password_token varchar(255)
+2025-05-18T11:05:41.531+05:30 DEBUG 6816 --- [main] org.hibernate.SQL                        : 
+    alter table users 
+       add column reset_password_token_expiry datetime(6)
+2025-05-18T11:05:42.722+05:30  INFO 6816 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-18T11:05:42.929+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:43.046+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:43.271+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:43.396+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:43.751+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:43.753+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:43.765+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:43.788+05:30  INFO 6816 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-18T11:05:45.974+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:45.977+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:45.984+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.115+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.156+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.159+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.218+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.228+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.239+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.270+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.272+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.279+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.285+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.331+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.333+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.343+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.353+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.381+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.384+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.392+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.405+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.409+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.434+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.443+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.451+05:30 DEBUG 6816 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:05:46.738+05:30  WARN 6816 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-18T11:05:46.784+05:30  WARN 6816 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 819bc5ef-bf57-4409-bb13-a2cbb4392466
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-18T11:05:46.804+05:30  INFO 6816 --- [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-18T11:05:48.145+05:30  WARN 6816 --- [main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2025-05-18T11:05:48.551+05:30  INFO 6816 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/api'
+2025-05-18T11:05:48.579+05:30  INFO 6816 --- [main] com.travel.compass.CompassApplication    : Started CompassApplication in 23.323 seconds (process running for 24.888)
+2025-05-18T11:07:30.633+05:30  INFO 6916 --- [main] com.travel.compass.CompassApplication    : Starting CompassApplication using Java 17.0.12 with PID 6916 (C:\Users\CHAMIKA\Documents\GitHub\travel_compass_backend\target\classes started by CHAMIKA in C:\Users\CHAMIKA\Documents\GitHub\travel_compass_backend)
+2025-05-18T11:07:30.645+05:30 DEBUG 6916 --- [main] com.travel.compass.CompassApplication    : Running with Spring Boot v3.4.2, Spring v6.2.2
+2025-05-18T11:07:30.653+05:30  INFO 6916 --- [main] com.travel.compass.CompassApplication    : No active profile set, falling back to 1 default profile: "default"
+2025-05-18T11:07:32.938+05:30  INFO 6916 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-18T11:07:33.240+05:30  INFO 6916 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 267 ms. Found 9 JPA repository interfaces.
+2025-05-18T11:07:35.073+05:30  INFO 6916 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-05-18T11:07:35.112+05:30  INFO 6916 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-18T11:07:35.114+05:30  INFO 6916 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-05-18T11:07:35.323+05:30  INFO 6916 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2025-05-18T11:07:35.326+05:30  INFO 6916 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4527 ms
+2025-05-18T11:07:35.723+05:30 DEBUG 6916 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2025-05-18T11:07:35.763+05:30  INFO 6916 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-18T11:07:35.943+05:30  INFO 6916 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.5.Final
+2025-05-18T11:07:36.052+05:30  INFO 6916 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-18T11:07:36.791+05:30  INFO 6916 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-18T11:07:36.875+05:30  INFO 6916 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-18T11:07:37.323+05:30  INFO 6916 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3fd33f48
+2025-05-18T11:07:37.328+05:30  INFO 6916 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-18T11:07:37.428+05:30  WARN 6916 --- [main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-18T11:07:37.431+05:30  WARN 6916 --- [main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-05-18T11:07:37.486+05:30  INFO 6916 --- [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-05-18T11:07:40.084+05:30  INFO 6916 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-18T11:07:40.222+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table guide_package_location (
+        package_id bigint not null,
+        location_id bigint not null
+    ) engine=InnoDB
+2025-05-18T11:07:40.935+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table guide_package (
+        id bigint not null auto_increment,
+        available bit not null,
+        package_name varchar(255),
+        price_per_day float(53) not null,
+        guide_id bigint,
+        primary key (id)
+    ) engine=InnoDB
+2025-05-18T11:07:42.089+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table guide_package_image_paths (
+        guide_package_id bigint not null,
+        image_paths varchar(255)
+    ) engine=InnoDB
+2025-05-18T11:07:43.399+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table guides (
+        id bigint not null auto_increment,
+        areas_of_expertise varchar(255),
+        description TEXT,
+        is_verified bit not null,
+        languages_spoken varchar(255),
+        license_number varchar(255),
+        user_id bigint,
+        primary key (id)
+    ) engine=InnoDB
+2025-05-18T11:07:44.085+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table hotel_owners (
+        id bigint not null auto_increment,
+        amenities TEXT,
+        business_license varchar(255),
+        hotel_address varchar(255),
+        hotel_name varchar(255),
+        star_rating integer not null,
+        user_id bigint,
+        primary key (id)
+    ) engine=InnoDB
+2025-05-18T11:07:44.751+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table hotel_package_location (
+        package_id bigint not null,
+        location_id bigint not null
+    ) engine=InnoDB
+2025-05-18T11:07:45.405+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table hotel_packages (
+        id bigint not null auto_increment,
+        available bit not null,
+        bed_count integer not null,
+        description varchar(255),
+        package_name varchar(255),
+        price_per_day float(53) not null,
+        hotel_owner_id bigint,
+        primary key (id)
+    ) engine=InnoDB
+2025-05-18T11:07:46.038+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table hotel_package_image_paths (
+        hotel_package_id bigint not null,
+        image_paths varchar(255)
+    ) engine=InnoDB
+2025-05-18T11:07:46.760+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table location (
+        id bigint not null auto_increment,
+        category varchar(255),
+        description varchar(5000),
+        district varchar(255),
+        name varchar(255),
+        province varchar(255),
+        primary key (id)
+    ) engine=InnoDB
+2025-05-18T11:07:47.415+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table location_image_paths (
+        location_id bigint not null,
+        image_paths varchar(255)
+    ) engine=InnoDB
+2025-05-18T11:07:48.059+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table service_requests (
+        id bigint not null auto_increment,
+        address varchar(255),
+        business_name varchar(255),
+        description varchar(255),
+        full_name varchar(255),
+        license_number varchar(255),
+        nic varchar(255),
+        phone_number varchar(255),
+        service_type varchar(255),
+        status varchar(255),
+        vehicle_types varchar(255),
+        user_id bigint not null,
+        primary key (id)
+    ) engine=InnoDB
+2025-05-18T11:07:48.891+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table users (
+        id bigint not null auto_increment,
+        email varchar(255) not null,
+        first_name varchar(255) not null,
+        last_name varchar(255) not null,
+        password varchar(255) not null,
+        reset_password_token varchar(255),
+        reset_password_token_expiry datetime(6),
+        role varchar(255),
+        primary key (id)
+    ) engine=InnoDB
+2025-05-18T11:07:49.412+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table vehicle_package_location (
+        package_id bigint not null,
+        location_id bigint not null
+    ) engine=InnoDB
+2025-05-18T11:07:50.332+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table vehicle_providers (
+        id bigint not null auto_increment,
+        company_name varchar(255),
+        fleet_size integer not null,
+        license_number varchar(255),
+        service_areas TEXT,
+        vehicle_types varchar(255),
+        user_id bigint,
+        primary key (id)
+    ) engine=InnoDB
+2025-05-18T11:07:50.914+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table vehicle_package (
+        id bigint not null auto_increment,
+        description varchar(255),
+        fuel_type enum ('DIESEL','ELECTRIC','HYBRID','PETROL'),
+        license_plate varchar(255),
+        passenger_capacity integer not null,
+        price_per_day float(53) not null,
+        price_per_km float(53) not null,
+        vehicle_model varchar(255),
+        vehicle_type enum ('BIKE','CAR','THREE_WHEELER','VAN'),
+        vehicle_provider_id bigint,
+        primary key (id)
+    ) engine=InnoDB
+2025-05-18T11:07:51.666+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    create table vehicle_package_image_paths (
+        vehicle_package_id bigint not null,
+        image_paths varchar(255)
+    ) engine=InnoDB
+2025-05-18T11:07:52.167+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table guides 
+       drop index UKhq4hhk7xbfhqw2oyyap9uo212
+2025-05-18T11:07:52.493+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table guides 
+       add constraint UKhq4hhk7xbfhqw2oyyap9uo212 unique (user_id)
+2025-05-18T11:07:53.287+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table hotel_owners 
+       drop index UK82o9jqgteum1o079ytd8h8mlh
+2025-05-18T11:07:53.305+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table hotel_owners 
+       add constraint UK82o9jqgteum1o079ytd8h8mlh unique (user_id)
+2025-05-18T11:07:53.733+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table users 
+       drop index UK6dotkott2kjsp8vw4d0m25fb7
+2025-05-18T11:07:53.747+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table users 
+       add constraint UK6dotkott2kjsp8vw4d0m25fb7 unique (email)
+2025-05-18T11:07:54.145+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table vehicle_providers 
+       drop index UKpcuixhb5f5mvx9t25mlsl3fb2
+2025-05-18T11:07:54.160+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table vehicle_providers 
+       add constraint UKpcuixhb5f5mvx9t25mlsl3fb2 unique (user_id)
+2025-05-18T11:07:54.617+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table guide_package_location 
+       add constraint FK621rndexf34nc2pgf5gvnp7s2 
+       foreign key (location_id) 
+       references location (id)
+2025-05-18T11:07:56.214+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table guide_package_location 
+       add constraint FK6s0o2m48u1b6lsiv2gay73wyn 
+       foreign key (package_id) 
+       references guide_package (id)
+2025-05-18T11:07:58.250+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table guide_package 
+       add constraint FKeiaummmikidjvk0g6abmwrnm3 
+       foreign key (guide_id) 
+       references guides (id)
+2025-05-18T11:08:00.004+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table guide_package_image_paths 
+       add constraint FK5raka6xglk0ylf04ou1fd71ag 
+       foreign key (guide_package_id) 
+       references guide_package (id)
+2025-05-18T11:08:01.812+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table guides 
+       add constraint FK9epk7rkhp13yrdhou2838dgam 
+       foreign key (user_id) 
+       references users (id)
+2025-05-18T11:08:03.684+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table hotel_owners 
+       add constraint FKrhvnm559g5eel2hijw1kmwr8i 
+       foreign key (user_id) 
+       references users (id)
+2025-05-18T11:08:05.152+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table hotel_package_location 
+       add constraint FK7pcr5wrf9at232umo4qnhr8l8 
+       foreign key (location_id) 
+       references location (id)
+2025-05-18T11:08:06.850+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table hotel_package_location 
+       add constraint FKtfcjkmpnqnkowxeae7e6gjjc1 
+       foreign key (package_id) 
+       references hotel_packages (id)
+2025-05-18T11:08:08.455+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table hotel_packages 
+       add constraint FK3gfnds7cnu4nh0g6gml436rtw 
+       foreign key (hotel_owner_id) 
+       references hotel_owners (id)
+2025-05-18T11:08:10.635+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table hotel_package_image_paths 
+       add constraint FK139ytfxlcisxjictchqb9s985 
+       foreign key (hotel_package_id) 
+       references hotel_packages (id)
+2025-05-18T11:08:11.829+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table location_image_paths 
+       add constraint FKby6joekiephttde780pni172u 
+       foreign key (location_id) 
+       references location (id)
+2025-05-18T11:08:12.830+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table service_requests 
+       add constraint FKdnrpkrvtepdqqcxg1nqiq5edt 
+       foreign key (user_id) 
+       references users (id)
+2025-05-18T11:08:14.161+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table vehicle_package_location 
+       add constraint FKfhpjc3038na32pdegeiwq4ab6 
+       foreign key (location_id) 
+       references location (id)
+2025-05-18T11:08:15.645+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table vehicle_package_location 
+       add constraint FKoiauap961wojmcc146ceyhgs 
+       foreign key (package_id) 
+       references vehicle_package (id)
+2025-05-18T11:08:17.188+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table vehicle_providers 
+       add constraint FK6ah85sqjss6x3pp262k97wgj3 
+       foreign key (user_id) 
+       references users (id)
+2025-05-18T11:08:18.395+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table vehicle_package 
+       add constraint FK2pef1hd9xypiun23310qky4xg 
+       foreign key (vehicle_provider_id) 
+       references vehicle_providers (id)
+2025-05-18T11:08:19.954+05:30 DEBUG 6916 --- [main] org.hibernate.SQL                        : 
+    alter table vehicle_package_image_paths 
+       add constraint FKoy5jp6ck7o5700eswumx92scc 
+       foreign key (vehicle_package_id) 
+       references vehicle_package (id)
+2025-05-18T11:08:21.302+05:30  INFO 6916 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-18T11:08:21.590+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:21.690+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:21.918+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:22.002+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:22.275+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:22.276+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:22.288+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:22.313+05:30  INFO 6916 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-18T11:08:23.354+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.356+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.363+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.374+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.441+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.443+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.465+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.466+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.470+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.493+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.495+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.503+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.512+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.545+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.547+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.556+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.566+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.623+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.628+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.667+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.670+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.673+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.695+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.696+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.701+05:30 DEBUG 6916 --- [main] tor$SharedEntityManagerInvocationHandler : Creating new EntityManager for shared EntityManager invocation
+2025-05-18T11:08:23.884+05:30  WARN 6916 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-18T11:08:23.924+05:30  WARN 6916 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 601180c5-43ce-42af-b8c0-ce97a87e30ad
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-18T11:08:23.938+05:30  INFO 6916 --- [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-05-18T11:08:24.970+05:30  WARN 6916 --- [main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2025-05-18T11:08:25.353+05:30  INFO 6916 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/api'
+2025-05-18T11:08:25.377+05:30  INFO 6916 --- [main] com.travel.compass.CompassApplication    : Started CompassApplication in 56.143 seconds (process running for 57.079)
+2025-05-18T11:12:22.288+05:30  INFO 6916 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-18T11:12:22.289+05:30  INFO 6916 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-18T11:12:22.297+05:30  INFO 6916 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2025-05-18T11:12:22.431+05:30 DEBUG 6916 --- [http-nio-8081-exec-1] o.j.s.OpenEntityManagerInViewInterceptor : Opening JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:12:23.161+05:30 DEBUG 6916 --- [http-nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.reset_password_token,
+        u1_0.reset_password_token_expiry,
+        u1_0.role 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-05-18T11:12:23.237+05:30 ERROR 6916 --- [http-nio-8081-exec-1] c.t.c.config.GlobalExceptionHandler      : Unexpected error: User not found with email: user@example.com
+2025-05-18T11:12:23.266+05:30 DEBUG 6916 --- [http-nio-8081-exec-1] o.j.s.OpenEntityManagerInViewInterceptor : Closing JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:15:49.624+05:30 DEBUG 6916 --- [http-nio-8081-exec-8] o.j.s.OpenEntityManagerInViewInterceptor : Opening JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:15:49.634+05:30 ERROR 6916 --- [http-nio-8081-exec-8] c.t.c.config.GlobalExceptionHandler      : Unexpected error: No static resource locations/all.
+2025-05-18T11:15:49.638+05:30 DEBUG 6916 --- [http-nio-8081-exec-8] o.j.s.OpenEntityManagerInViewInterceptor : Closing JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:15:49.774+05:30 DEBUG 6916 --- [http-nio-8081-exec-2] o.j.s.OpenEntityManagerInViewInterceptor : Opening JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:15:49.786+05:30 ERROR 6916 --- [http-nio-8081-exec-2] c.t.c.config.GlobalExceptionHandler      : Unexpected error: No static resource locations/all.
+2025-05-18T11:15:49.790+05:30 DEBUG 6916 --- [http-nio-8081-exec-2] o.j.s.OpenEntityManagerInViewInterceptor : Closing JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:15:50.785+05:30 DEBUG 6916 --- [http-nio-8081-exec-1] o.j.s.OpenEntityManagerInViewInterceptor : Opening JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:15:50.790+05:30 ERROR 6916 --- [http-nio-8081-exec-1] c.t.c.config.GlobalExceptionHandler      : Unexpected error: No static resource locations/all.
+2025-05-18T11:15:50.798+05:30 DEBUG 6916 --- [http-nio-8081-exec-1] o.j.s.OpenEntityManagerInViewInterceptor : Closing JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:15:50.820+05:30 DEBUG 6916 --- [http-nio-8081-exec-3] o.j.s.OpenEntityManagerInViewInterceptor : Opening JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:15:50.823+05:30 ERROR 6916 --- [http-nio-8081-exec-3] c.t.c.config.GlobalExceptionHandler      : Unexpected error: No static resource locations/all.
+2025-05-18T11:15:50.828+05:30 DEBUG 6916 --- [http-nio-8081-exec-3] o.j.s.OpenEntityManagerInViewInterceptor : Closing JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:15:50.852+05:30 DEBUG 6916 --- [http-nio-8081-exec-4] o.j.s.OpenEntityManagerInViewInterceptor : Opening JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:15:50.854+05:30 ERROR 6916 --- [http-nio-8081-exec-4] c.t.c.config.GlobalExceptionHandler      : Unexpected error: No static resource locations/all.
+2025-05-18T11:15:50.856+05:30 DEBUG 6916 --- [http-nio-8081-exec-4] o.j.s.OpenEntityManagerInViewInterceptor : Closing JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:15:50.871+05:30 DEBUG 6916 --- [http-nio-8081-exec-5] o.j.s.OpenEntityManagerInViewInterceptor : Opening JPA EntityManager in OpenEntityManagerInViewInterceptor
+2025-05-18T11:15:50.874+05:30 ERROR 6916 --- [http-nio-8081-exec-5] c.t.c.config.GlobalExceptionHandler      : Unexpected error: No static resource locations/all.
+2025-05-18T11:15:50.886+05:30 DEBUG 6916 --- [http-nio-8081-exec-5] o.j.s.OpenEntityManagerInViewInterceptor : Closing JPA EntityManager in OpenEntityManagerInViewInterceptor
