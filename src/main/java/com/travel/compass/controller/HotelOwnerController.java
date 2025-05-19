@@ -36,7 +36,7 @@ public class HotelOwnerController {
         return ResponseEntity.ok(hotelOwnerService.getAllHotelOwners());
     }
 
-    // ✅ Delete a ho by ID
+    //  Delete a ho by ID
     @DeleteMapping("/delete/{hotelOwnerId}")
     public ResponseEntity<String> deleteHotelOwner(@PathVariable Long hotelOwnerId) {
         hotelOwnerService.deleteHotel(hotelOwnerId);

@@ -1,6 +1,4 @@
 package com.travel.compass.service;
-
-
 import com.travel.compass.Dto.HotelOwnerDTO;
 import com.travel.compass.Dto.VehicleProviderDTO;
 import com.travel.compass.model.GuidePackage;
@@ -50,7 +48,7 @@ public class HotelOwnerService {
 
 
 
-    // ✅ Delete a guide and all their packages
+    //  Delete a guide and all their packages
     public void deleteHotel(Long hotelOwnerId) {
         List<HotelPackage> packages = hotelPackageRepository.findByHotelOwnerId(hotelOwnerId);
         hotelPackageRepository.deleteAll(packages);
