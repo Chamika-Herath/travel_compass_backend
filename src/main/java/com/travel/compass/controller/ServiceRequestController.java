@@ -30,7 +30,7 @@ public class ServiceRequestController {
     private final ServiceRequestRepository serviceRequestRepository;
     private final ModelMapper modelMapper;
 
-    // ========== Create Endpoints ========== //
+
 
     @PostMapping
     public ResponseEntity<?> createServiceRequest(@Valid @RequestBody ServiceRequestDTO requestDTO) {
@@ -61,13 +61,7 @@ public class ServiceRequestController {
         }
     }
 
-    // ========== Read Endpoints ========== //
 
-    /*@GetMapping("/pending")
-    public ResponseEntity<List<ServiceRequest>> getAllPendingRequests() {
-        List<ServiceRequest> requests = serviceRequestService.getAllPendingServiceRequests();
-        return ResponseEntity.ok(requests);
-    }*/
     @GetMapping("/pending")
     public ResponseEntity<List<ServiceRequestDTO>> getPendingRequests() {
         List<ServiceRequest> requests = serviceRequestRepository.findByStatus("PENDING");
@@ -99,7 +93,7 @@ public class ServiceRequestController {
         return ResponseEntity.ok(requests);
     }
 
-    // ========== Update Endpoints ========== //
+
 
     @PutMapping("/{id}/approve")
     public ResponseEntity<?> approveServiceRequest(@PathVariable Long id) {
@@ -137,7 +131,7 @@ public class ServiceRequestController {
         }
     }
 
-    // ========== Delete Endpoints ========== //
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteServiceRequest(@PathVariable Long id) {

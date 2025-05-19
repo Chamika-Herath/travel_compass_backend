@@ -31,7 +31,7 @@ public class VehicleProviderController {
     }
 
 
-    // ✅ Delete a vp by ID
+    //  Delete a vp by ID
     @DeleteMapping("/delete/{vehicleOwnerId}")
     public ResponseEntity<String> deleteVehicleProvider(@PathVariable Long vehicleOwnerId) {
         vehicleProviderService.deleteVehicle(vehicleOwnerId);

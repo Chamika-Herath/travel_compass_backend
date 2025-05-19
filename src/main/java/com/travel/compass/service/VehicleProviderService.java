@@ -1,11 +1,9 @@
 package com.travel.compass.service;
 
-import com.travel.compass.Dto.GuideDTO;
+
 import com.travel.compass.Dto.VehicleProviderDTO;
-import com.travel.compass.model.HotelPackage;
 import com.travel.compass.model.VehiclePackage;
 import com.travel.compass.model.VehicleProvider;
-import com.travel.compass.repository.HotelPackageRepository;
 import com.travel.compass.repository.VehiclePackageRepository;
 import com.travel.compass.repository.VehicleProviderRepository;
 import org.modelmapper.ModelMapper;
@@ -53,7 +51,7 @@ public class VehicleProviderService {
 
 
 
-    // ✅ Delete a guide and all their packages
+    //  Delete a guide and all their packages
     public void deleteVehicle(Long vehicleProviderId) {
         List<VehiclePackage> packages = vehiclePackageRepository.findByVehicleProviderId(vehicleProviderId);
         vehiclePackageRepository.deleteAll(packages);

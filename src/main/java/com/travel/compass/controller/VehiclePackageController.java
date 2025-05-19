@@ -1,36 +1,3 @@
-//// VehiclePackageController.java (new)
-//package com.travel.compass.controller;
-//
-//import com.travel.compass.Dto.VehiclePackageDTO;
-//import com.travel.compass.service.VehiclePackageService;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.multipart.MultipartFile;
-//import java.io.IOException;
-//
-//@RestController
-//@RequestMapping("/api/vehicle-packages")
-//@CrossOrigin(origins = "http://localhost:3000")
-//public class VehiclePackageController {
-//    private final VehiclePackageService packageService;
-//
-//    public VehiclePackageController(VehiclePackageService packageService) {
-//        this.packageService = packageService;
-//    }
-//
-//    @PostMapping(value = "/create/user/{userId}", consumes = {"multipart/form-data"})
-//    public ResponseEntity<VehiclePackageDTO> createPackage(
-//            @PathVariable Long userId,
-//            @RequestPart("package") VehiclePackageDTO dto,
-//            @RequestPart("images") MultipartFile[] images) throws IOException {
-//        return ResponseEntity.ok(packageService.createPackage(userId, dto, images));
-//    }
-//
-//    // Add other endpoints for get/update/delete
-//}
-
-
-
 package com.travel.compass.controller;
 
 import com.travel.compass.Dto.HotelPackageDTO;

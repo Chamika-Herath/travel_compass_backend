@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ServiceRequestUpdateDTO {
-    private String status; // Should be "APPROVED" or "REJECTED"
+    private String status;
 }
 

@@ -1,7 +1,4 @@
 package com.travel.compass.Dto;
-
-
-
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 

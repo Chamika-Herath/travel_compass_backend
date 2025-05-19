@@ -24,7 +24,7 @@ public class GuideService {
         this.modelMapper = modelMapper;
     }
 
-    // ✅ Return a list of simplified GuideDTOs for admin
+    //  Return a list of simplified GuideDTOs for admin
     public List<GuideDTO> getAllGuides() {
         return guideRepo.findAll().stream().map(guide -> {
             GuideDTO dto = new GuideDTO();
@@ -39,7 +39,7 @@ public class GuideService {
         }).collect(Collectors.toList());
     }
 
-    // ✅ Delete a guide and all their packages
+    //  Delete a guide and all their packages
     public void deleteGuide(Long guideId) {
         List<GuidePackage> packages = packageRepo.findByGuideId(guideId);
         packageRepo.deleteAll(packages);

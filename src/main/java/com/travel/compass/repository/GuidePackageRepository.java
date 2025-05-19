@@ -1,9 +1,3 @@
-
-
-
-
-
-
 package com.travel.compass.repository;
 
 import com.travel.compass.model.GuidePackage;

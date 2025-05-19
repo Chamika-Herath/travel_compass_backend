@@ -22,7 +22,7 @@ public class ServiceRequestService {
     private final HotelOwnerRepository hotelOwnerRepository;
     private final VehicleProviderRepository vehicleProviderRepository;
 
-    // ========== CRUD Operations ========== //
+
 
     @Transactional
     public ServiceRequest createServiceRequest(ServiceRequest request) {
@@ -61,7 +61,7 @@ public class ServiceRequestService {
         serviceRequestRepository.deleteById(id);
     }
 
-    // ========== Business Logic Methods ========== //
+
 
     public List<ServiceRequest> getServiceRequestsByUserId(Long userId) {
         logger.debug("Fetching requests for user ID: {}", userId);
@@ -78,7 +78,7 @@ public class ServiceRequestService {
         return updateRequestStatus(requestId, "REJECTED");
     }
 
-    // ========== Helper Methods ========== //
+
 
     @Transactional
     protected ServiceRequest updateRequestStatus(Long requestId, String status) {
